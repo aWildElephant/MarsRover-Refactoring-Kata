@@ -15,16 +15,17 @@ public class MarsRover {
     public static String move(Coordinates coordinates, Direction direction, Reader instructions) throws IOException {
         final int instruction = instructions.read();
 
-        if (instruction != END_OF_PROGRAM) {
-            if (instruction == 'L') {
+        switch (instruction) {
+            case 'L':
                 return move(coordinates, direction.left(), instructions);
-            } else if (instruction == 'R') {
+            case 'R':
                 return move(coordinates, direction.right(), instructions);
-            } else if (instruction == 'M') {
+            case 'M':
                 return move(direction.move(coordinates), direction, instructions);
-            }
+            case END_OF_PROGRAM:
+                return coordinates.x() + " " + coordinates.y() + " " + direction;
+            default:
+                throw new IllegalArgumentException("Unknown instruction " + instruction);
         }
-
-        return coordinates.x() + " " + coordinates.y() + " " + direction;
     }
 }
